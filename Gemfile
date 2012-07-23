@@ -26,3 +26,7 @@ gem "bootstrap-sass", ">= 2.0.3"
 gem "simple_form"
 gem "hominid"
 gem "therubyracer", :group => :assets, :platform => :ruby
+
+gem 'jquery-ui-rails'
+gem 'jquery-ui-bootstrap-rails'
+gem "acts_as_follower"

@@ -11,7 +11,42 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120709152234) do
+ActiveRecord::Schema.define(:version => 20120723132333) do
+
+  create_table "follows", :force => true do |t|
+    t.integer  "followable_id",                      :null => false
+    t.string   "followable_type",                    :null => false
+    t.integer  "follower_id",                        :null => false
+    t.string   "follower_type",                      :null => false
+    t.boolean  "blocked",         :default => false, :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+  end
+
+  add_index "follows", ["followable_id", "followable_type"], :name => "fk_followables"
+  add_index "follows", ["follower_id", "follower_type"], :name => "fk_follows"
+
+  create_table "parents", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "last_name"
+    t.string   "first_name"
+    t.string   "city"
+    t.string   "country"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "parents", ["last_name", "first_name"], :name => "index_parents_on_last_name_and_first_name"
+  add_index "parents", ["user_id"], :name => "index_parents_on_user_id", :unique => true
+
+  create_table "parents_followees", :force => true do |t|
+    t.integer  "parent_id"
+    t.integer  "followee_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "parents_followees", ["parent_id", "followee_id"], :name => "index_parents_followees_on_parent_id_and_followee_id"
 
   create_table "roles", :force => true do |t|
     t.string   "name"

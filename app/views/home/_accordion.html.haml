@@ -1,0 +1,40 @@
+/ Accordion
+#accordion.ui-accordion.ui-widget.ui-helper-reset.ui-accordion-icons{:role => "tablist"}
+  %div
+    %h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-state-active.ui-corner-top{"aria-expanded" => "true", "aria-selected" => "true", :role => "tab", :tabindex => "0"}
+      %span.ui-icon.ui-icon-triangle-1-s
+      %a{:href => "#", :tabindex => "-1"} Following
+    .ui-accordion-content.ui-helper-reset.ui-widget-content.ui-corner-bottom.ui-accordion-content-active{:role => "tabpanel", :style => "height: 34px;"} 
+      %ul
+      - @users.each do |user|
+        - if user.email != current_user.email
+          %li
+            - if user.name.nil? 
+              #{link_to user.email, user} 
+            - else
+              #{link_to user.name, user}
+            - if current_user.following?(user)
+              #{link_to "Unfollow", follows_path(:followable => user), :method => :delete}
+            - else
+              #{link_to "Follow", follows_path(:followable => user), :method => :post}
+
+
+  %div
+    %h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-all{"aria-expanded" => "false", "aria-selected" => "false", :role => "tab", :tabindex => "-1"}
+      %span.ui-icon.ui-icon-triangle-1-e
+      %a{:href => "#", :tabindex => "-1"} Followers
+    .ui-accordion-content.ui-helper-reset.ui-widget-content.ui-corner-bottom{:role => "tabpanel", :style => "height: 34px; display: none;"} 
+      %ul
+      - @users.each do |user|
+        - if user.following?(current_user)
+          %li
+            - if user.name.nil? 
+              #{link_to user.email, user}
+            - else
+              #{link_to user.name, user}
+  %div
+    %h3.ui-accordion-header.ui-helper-reset.ui-state-default.ui-corner-all{"aria-expanded" => "false", "aria-selected" => "false", :role => "tab", :tabindex => "-1"}
+      %span.ui-icon.ui-icon-triangle-1-e
+      %a{:href => "#", :tabindex => "-1"} Third
+    .ui-accordion-content.ui-helper-reset.ui-widget-content.ui-corner-bottom{:role => "tabpanel", :style => "height: 34px; display: none;"} Nam dui erat, auctor a, dignissim quis.
+/ end accordion
