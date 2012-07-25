@@ -11,7 +11,38 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120723132333) do
+ActiveRecord::Schema.define(:version => 20120725124256) do
+
+  create_table "authors", :force => true do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "authors_books", :id => false, :force => true do |t|
+    t.integer "author_id"
+    t.integer "book_id"
+  end
+
+  add_index "authors_books", ["author_id", "book_id"], :name => "index_authors_books_on_author_id_and_book_id"
+
+  create_table "books", :force => true do |t|
+    t.string   "title"
+    t.integer  "publisher_id"
+    t.datetime "published_at"
+    t.string   "isbn"
+    t.integer  "page_count"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.integer  "collection_id"
+  end
+
+  create_table "collections", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "follows", :force => true do |t|
     t.integer  "followable_id",                      :null => false
@@ -47,6 +78,12 @@ ActiveRecord::Schema.define(:version => 20120723132333) do
   end
 
   add_index "parents_followees", ["parent_id", "followee_id"], :name => "index_parents_followees_on_parent_id_and_followee_id"
+
+  create_table "publishers", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "roles", :force => true do |t|
     t.string   "name"
